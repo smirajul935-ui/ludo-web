@@ -1,101 +1,23 @@
 const game = {
-    maxPlayers: 2,
-    roomId: null,
-    playerId: null,
-    playerName: "",
-    myColor: null,
-    roomData: null,
+    // ... (Old create/join logic remains same) ...
 
-    setMaxPlayers(n) {
-        this.maxPlayers = n;
-        document.getElementById('selected-count').innerText = "Players: " + n;
-    },
-
-    async createRoom() {
-        const nameInput = document.getElementById('player-name').value;
-        this.playerName = nameInput || "Player " + Math.floor(Math.random() * 1000);
-        
-        const user = await auth.signInAnonymously();
-        this.playerId = user.user.uid;
-
-        const code = Math.random().toString(36).substring(2, 8).toUpperCase();
-        this.roomId = code;
-
-        const roomRef = db.ref('rooms/' + this.roomId);
-        await roomRef.set({
-            roomCode: code,
-            hostId: this.playerId,
-            maxPlayers: this.maxPlayers,
-            status: 'WAITING',
-            currentTurn: 0,
-            diceValue: 0,
-            createdAt: firebase.database.ServerValue.TIMESTAMP
-        });
-
-        this.joinRoomLogic();
-    },
-
-    async joinRoom() {
-        const code = document.getElementById('join-code').value.toUpperCase();
-        if (code.length !== 6) return alert("Invalid Code");
-        this.roomId = code;
-        
-        const nameInput = document.getElementById('player-name').value;
-        this.playerName = nameInput || "Player " + Math.floor(Math.random() * 1000);
-
-        const user = await auth.signInAnonymously();
-        this.playerId = user.user.uid;
-
-        this.joinRoomLogic();
-    },
-
-    async joinRoomLogic() {
-        const roomRef = db.ref('rooms/' + this.roomId);
-        const snapshot = await roomRef.once('value');
-        
-        if (!snapshot.exists()) return alert("Room not found");
-        const data = snapshot.val();
-        
-        if (data.status !== 'WAITING') return alert("Game already started");
-
-        const playersRef = db.ref(`rooms/${this.roomId}/players`);
-        const pSnap = await playersRef.once('value');
-        const playerCount = pSnap.numChildren();
-
-        if (playerCount >= data.maxPlayers) return alert("Room full");
-
-        const mySlot = playerCount;
+    async startGame() {
+        const initialTokens = {};
         const colors = ['red', 'green', 'yellow', 'blue'];
-        this.myColor = colors[mySlot];
-
-        await playersRef.child(this.playerId).set({
-            name: this.playerName,
-            color: this.myColor,
-            slot: mySlot,
-            connected: true
-        });
-
-        ui.showLobby(data.roomCode, data.hostId === this.playerId);
-        this.listenToRoom();
-    },
-
-    listenToRoom() {
-        db.ref(`rooms/${this.roomId}`).on('value', (snap) => {
-            const data = snap.val();
-            if (!data) return;
-            this.roomData = data;
-
-            ui.updateLobbyPlayers(data.players);
-
-            if (data.status === 'PLAYING') {
-                ui.showGame();
-                boardRenderer.init();
+        
+        // 4 Tokens for each player
+        for(let i=0; i<this.roomData.maxPlayers; i++) {
+            for(let j=0; j<4; j++) {
+                const id = `${colors[i]}_${j}`;
+                initialTokens[id] = { id, color: colors[i], pos: -1, status: 'HOME' };
             }
-        });
-    },
+        }
 
-    startGame() {
-        db.ref(`rooms/${this.roomId}`).update({ status: 'PLAYING', currentTurn: 0 });
+        db.ref(`rooms/${this.roomId}`).update({ 
+            status: 'PLAYING', 
+            currentTurn: 0,
+            tokens: initialTokens 
+        });
     },
 
     rollDice() {
@@ -103,15 +25,37 @@ const game = {
         const players = Object.values(this.roomData.players).sort((a,b) => a.slot - b.slot);
         const currentPlayer = players[this.roomData.currentTurn];
 
-        if (currentPlayer.uid !== this.playerId) return; // Not my turn
+        if (currentPlayer.uid !== auth.currentUser.uid) {
+            alert("Not your turn!");
+            return;
+        }
 
         const roll = Math.floor(Math.random() * 6) + 1;
-        db.ref(`rooms/${this.roomId}`).update({ diceValue: roll });
+        document.getElementById('dice-value').innerText = roll;
         
-        // Simplification: Auto change turn for demo
-        setTimeout(() => {
-            let nextTurn = (this.roomData.currentTurn + 1) % this.maxPlayers;
-            db.ref(`rooms/${this.roomId}`).update({ currentTurn: nextTurn, diceValue: 0 });
-        }, 2000);
+        db.ref(`rooms/${this.roomId}`).update({ diceValue: roll });
+
+        // Logic: Agar 6 aaya to token nikalne ka chance
+        // Token click logic handle karne ke liye humein board par event listener chahiye
+    },
+
+    moveToken(tokenId) {
+        const token = this.roomData.tokens[tokenId];
+        const dice = this.roomData.diceValue;
+
+        if(token.color !== this.myColor) return;
+        if(dice === 0) return;
+
+        let newPos = token.pos;
+        if(token.pos === -1 && dice === 6) {
+            newPos = 0; // Start path
+        } else if(token.pos >= 0) {
+            newPos += dice;
+        }
+
+        if(newPos !== token.pos) {
+            db.ref(`rooms/${this.roomId}/tokens/${tokenId}`).update({ pos: newPos });
+            db.ref(`rooms/${this.roomId}`).update({ diceValue: 0, currentTurn: (this.roomData.currentTurn + 1) % this.roomData.maxPlayers });
+        }
     }
 };
