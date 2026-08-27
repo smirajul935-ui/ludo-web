@@ -3,68 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Professional Ludo</title>
+    <title>Pro Ludo Multiplayer</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
 </head>
 <body>
-
-    <div id="app">
-        <!-- 1. Home Screen -->
+    <div id="game-container">
+        <!-- 1. Home -->
         <div id="screen-home" class="screen">
-            <h1 class="title">LUDO<span>ONLINE</span></h1>
-            <input type="text" id="player-name" placeholder="Enter Nickname" maxlength="12">
-            <button class="btn primary" onclick="ui.showCreate()">CREATE ROOM</button>
-            <button class="btn secondary" onclick="ui.showJoin()">JOIN ROOM</button>
+            <h1 class="logo">LUDO<span>MULTIPLAYER</span></h1>
+            <input type="text" id="player-name" placeholder="Apna Naam Likhein" maxlength="10">
+            <button onclick="ui.showCreate()">CREATE ROOM</button>
+            <button onclick="ui.showJoin()">JOIN ROOM</button>
         </div>
 
-        <!-- 2. Create Room Selection -->
+        <!-- 2. Create Lobby -->
         <div id="screen-create" class="screen hidden">
-            <h2>Select Players</h2>
-            <div class="option-row">
+            <h2>SETUP GAME</h2>
+            <div class="players-select">
                 <button onclick="game.setPlayers(2)">2 Players</button>
                 <button onclick="game.setPlayers(4)">4 Players</button>
             </div>
             <p id="p-count">Mode: 2 Players</p>
-            <button class="btn success" onclick="game.startCreating()">START LOBBY</button>
-            <button class="btn-text" onclick="ui.showHome()">Back</button>
+            <button class="btn-green" onclick="game.startCreating()">GENERATE CODE</button>
+            <button class="btn-back" onclick="ui.showHome()">BACK</button>
         </div>
 
-        <!-- 3. Join Room -->
+        <!-- 3. Join -->
         <div id="screen-join" class="screen hidden">
-            <h2>Join Room</h2>
-            <input type="text" id="join-code" placeholder="6-Digit Code">
-            <button class="btn success" onclick="game.joinRoom()">JOIN NOW</button>
-            <button class="btn-text" onclick="ui.showHome()">Back</button>
+            <h2>JOIN GAME</h2>
+            <input type="text" id="join-code" placeholder="Enter 6-Digit Code">
+            <button class="btn-green" onclick="game.joinRoom()">JOIN NOW</button>
+            <button class="btn-back" onclick="ui.showHome()">BACK</button>
         </div>
 
-        <!-- 4. Lobby -->
+        <!-- 4. Waiting Lobby -->
         <div id="screen-lobby" class="screen hidden">
-            <div class="room-card">
+            <div class="code-box">
                 <p>ROOM CODE</p>
                 <h1 id="room-id-display">------</h1>
             </div>
-            <div id="player-list" class="player-grid"></div>
+            <div id="player-list"></div>
             <div id="host-controls" class="hidden">
-                <button class="btn success" onclick="game.startGame()">START GAME</button>
+                <button class="btn-green" onclick="game.startGame()">START GAME</button>
             </div>
-            <p id="wait-msg" class="pulse">Waiting for host to start...</p>
+            <p class="blink">Waiting for players...</p>
         </div>
 
-        <!-- 5. Game Screen -->
+        <!-- 5. Real Game Board -->
         <div id="screen-game" class="screen hidden">
-            <div class="game-header">
-                <span id="turn-indicator">Your Turn</span>
-                <span id="timer">30s</span>
+            <div class="header-info">
+                <div id="turn-indicator">TURN: RED</div>
+                <div id="timer">30</div>
             </div>
-            <div id="board-container">
+            <div id="ludo-board-wrapper">
                 <canvas id="ludoCanvas"></canvas>
             </div>
-            <div class="game-footer">
+            <div class="footer-controls">
                 <div id="dice-box" onclick="game.rollDice()">?</div>
-                <p id="status-msg">Tap dice to roll</p>
+                <p id="status-msg">Click Dice to Roll</p>
             </div>
         </div>
     </div>
