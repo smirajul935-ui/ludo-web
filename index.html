@@ -3,69 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Pro Ludo Multiplayer</title>
+    <title>Ludo Online Multiplayer</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
 </head>
 <body>
-    <div id="game-container">
-        <!-- 1. Home -->
-        <div id="screen-home" class="screen">
-            <h1 class="logo">LUDO<span>MULTIPLAYER</span></h1>
-            <input type="text" id="player-name" placeholder="Apna Naam Likhein" maxlength="10">
-            <button onclick="ui.showCreate()">CREATE ROOM</button>
-            <button onclick="ui.showJoin()">JOIN ROOM</button>
-        </div>
 
-        <!-- 2. Create Lobby -->
-        <div id="screen-create" class="screen hidden">
-            <h2>SETUP GAME</h2>
-            <div class="players-select">
-                <button onclick="game.setPlayers(2)">2 Players</button>
-                <button onclick="game.setPlayers(4)">4 Players</button>
+    <div id="main-wrapper">
+        <!-- 1. HOME SCREEN -->
+        <section id="screen-home" class="game-screen">
+            <h1 class="main-logo">LUDO<span>MULTIPLAYER</span></h1>
+            <div class="menu-card">
+                <input type="text" id="player-name" placeholder="Enter Your Name" maxlength="12">
+                <button class="btn-play" onclick="ui.showCreate()">CREATE ROOM</button>
+                <button class="btn-join" onclick="ui.showJoin()">JOIN ROOM</button>
             </div>
-            <p id="p-count">Mode: 2 Players</p>
-            <button class="btn-green" onclick="game.startCreating()">GENERATE CODE</button>
-            <button class="btn-back" onclick="ui.showHome()">BACK</button>
-        </div>
+        </section>
 
-        <!-- 3. Join -->
-        <div id="screen-join" class="screen hidden">
-            <h2>JOIN GAME</h2>
-            <input type="text" id="join-code" placeholder="Enter 6-Digit Code">
-            <button class="btn-green" onclick="game.joinRoom()">JOIN NOW</button>
+        <!-- 2. CREATE ROOM -->
+        <section id="screen-create" class="game-screen hidden">
+            <h2 class="sub-title">SELECT PLAYERS</h2>
+            <div class="player-options">
+                <button class="opt-btn" id="p2" onclick="game.setPlayers(2)">2 Players</button>
+                <button class="opt-btn" id="p4" onclick="game.setPlayers(4)">4 Players</button>
+            </div>
+            <button class="btn-confirm" onclick="game.startCreating()">START LOBBY</button>
             <button class="btn-back" onclick="ui.showHome()">BACK</button>
-        </div>
+        </section>
 
-        <!-- 4. Waiting Lobby -->
-        <div id="screen-lobby" class="screen hidden">
-            <div class="code-box">
+        <!-- 3. JOIN ROOM -->
+        <section id="screen-join" class="game-screen hidden">
+            <h2 class="sub-title">JOIN GAME</h2>
+            <div class="menu-card">
+                <input type="text" id="join-code" placeholder="Enter 6-Digit Code">
+                <button class="btn-confirm" onclick="game.joinRoom()">JOIN NOW</button>
+                <button class="btn-back" onclick="ui.showHome()">BACK</button>
+            </div>
+        </section>
+
+        <!-- 4. LOBBY -->
+        <section id="screen-lobby" class="game-screen hidden">
+            <div class="lobby-card">
                 <p>ROOM CODE</p>
                 <h1 id="room-id-display">------</h1>
             </div>
-            <div id="player-list"></div>
+            <div id="player-list" class="list-container"></div>
             <div id="host-controls" class="hidden">
-                <button class="btn-green" onclick="game.startGame()">START GAME</button>
+                <button class="btn-confirm" onclick="game.startGame()">START GAME</button>
             </div>
-            <p class="blink">Waiting for players...</p>
-        </div>
+            <div id="wait-msg">Waiting for players to join...</div>
+        </section>
 
-        <!-- 5. Real Game Board -->
-        <div id="screen-game" class="screen hidden">
-            <div class="header-info">
-                <div id="turn-indicator">TURN: RED</div>
-                <div id="timer">30</div>
+        <!-- 5. REAL GAME BOARD -->
+        <section id="screen-game" class="game-screen hidden">
+            <div class="game-info-bar">
+                <div class="turn-box">TURN: <span id="current-turn-color">RED</span></div>
+                <div class="timer-box">⏱ <span id="game-timer">30</span>s</div>
             </div>
-            <div id="ludo-board-wrapper">
+            
+            <div id="ludo-board-box">
                 <canvas id="ludoCanvas"></canvas>
             </div>
-            <div class="footer-controls">
-                <div id="dice-box" onclick="game.rollDice()">?</div>
-                <p id="status-msg">Click Dice to Roll</p>
+
+            <div class="game-controls">
+                <div id="dice-container" onclick="game.rollDice()">
+                    <div id="dice-graphic">?</div>
+                </div>
+                <p id="status-text">Your Turn! Tap to Roll</p>
             </div>
-        </div>
+        </section>
     </div>
 
     <script src="firebase-config.js"></script>
