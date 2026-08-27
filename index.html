@@ -3,89 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Online Ludo Multiplayer</title>
-    <link rel="stylesheet" href="css/style.css">
-    <!-- Firebase SDKs -->
+    <title>Ludo Online Multiplayer</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Firebase Compat SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
 </head>
 <body>
-
-    <!-- 1. Home Screen -->
+    <!-- Home Screen -->
     <div id="screen-home" class="screen">
-        <h1>LUDO ONLINE</h1>
-        <div class="menu-box">
-            <input type="text" id="player-name" placeholder="Enter Name" maxlength="12">
-            <button onclick="ui.showCreateRoom()">CREATE ROOM</button>
-            <button onclick="ui.showJoinRoom()">JOIN ROOM</button>
+        <h1 class="logo-text">LUDO ONLINE</h1>
+        <div class="input-group">
+            <input type="text" id="player-name" placeholder="Enter Name" maxlength="10">
+            <button class="btn-main" onclick="game.createRoom()">CREATE ROOM</button>
+            <button class="btn-main" onclick="ui.showJoin()">JOIN ROOM</button>
         </div>
     </div>
 
-    <!-- 2. Create Room Screen -->
-    <div id="screen-create" class="screen hidden">
-        <h2>CREATE ROOM</h2>
-        <div class="player-count-select">
-            <button onclick="game.setMaxPlayers(2)">2 Players</button>
-            <button onclick="game.setMaxPlayers(3)">3 Players</button>
-            <button onclick="game.setMaxPlayers(4)">4 Players</button>
-        </div>
-        <p id="selected-count">Players: 2</p>
-        <button class="primary" onclick="game.createRoom()">START LOBBY</button>
-        <button onclick="ui.showHome()">BACK</button>
+    <!-- Create Room Selection -->
+    <div id="screen-create-select" class="screen hidden">
+        <h2>Select Players</h2>
+        <button onclick="game.setPlayers(2)">2 Players</button>
+        <button onclick="game.setPlayers(4)">4 Players</button>
+        <p id="p-count">Selected: 2</p>
+        <button class="btn-confirm" onclick="game.startCreating()">START LOBBY</button>
     </div>
 
-    <!-- 3. Join Room Screen -->
+    <!-- Join Screen -->
     <div id="screen-join" class="screen hidden">
-        <h2>JOIN ROOM</h2>
+        <h2>Join Room</h2>
         <input type="text" id="join-code" placeholder="Enter 6-Digit Code">
-        <button class="primary" onclick="game.joinRoom()">JOIN NOW</button>
+        <button class="btn-confirm" onclick="game.joinRoom()">JOIN NOW</button>
         <button onclick="ui.showHome()">BACK</button>
     </div>
 
-    <!-- 4. Waiting Lobby -->
+    <!-- Lobby -->
     <div id="screen-lobby" class="screen hidden">
-        <h2>LOBBY</h2>
-        <div class="room-info">
-            CODE: <span id="display-code">------</span>
-        </div>
-        <div id="player-list">
-            <!-- Players added dynamically -->
-        </div>
+        <h2 id="room-id-display">CODE: ------</h2>
+        <div id="player-list"></div>
         <div id="host-controls" class="hidden">
-            <button class="primary" onclick="game.startGame()">START GAME</button>
+            <button class="btn-confirm" onclick="game.startGame()">START GAME</button>
         </div>
-        <p id="wait-msg">Waiting for host to start...</p>
+        <p id="wait-msg">Waiting for host...</p>
     </div>
 
-    <!-- 5. Game Screen -->
+    <!-- Game Screen -->
     <div id="screen-game" class="screen hidden">
-        <div id="game-header">
-            <div id="turn-indicator">Waiting...</div>
-            <div id="timer">30</div>
+        <div class="game-info">
+            <span id="turn-name">Turn: ---</span>
+            <span id="timer">30</span>
         </div>
-        
-        <div id="ludo-container">
-            <canvas id="ludoBoard"></canvas>
+        <div id="board-container">
+            <canvas id="ludoCanvas"></canvas>
         </div>
-
-        <div id="game-controls">
-            <div id="dice-container" onclick="game.rollDice()">
-                <div id="dice-value">?</div>
-            </div>
-            <div id="status-msg">Your Turn! Roll the dice.</div>
+        <div class="controls">
+            <div id="dice-box" onclick="game.rollDice()">?</div>
+            <p id="game-status">Click Dice!</p>
         </div>
     </div>
 
-    <!-- 6. Winner Screen -->
-    <div id="screen-winner" class="screen hidden">
-        <h1 id="winner-name">PLAYER WINS!</h1>
-        <button class="primary" onclick="location.reload()">PLAY AGAIN</button>
-    </div>
-
-    <script src="js/firebase-config.js"></script>
-    <script src="js/game-engine.js"></script>
-    <script src="js/board-renderer.js"></script>
-    <script src="js/main.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="game-engine.js"></script>
 </body>
 </html>
