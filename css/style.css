@@ -1,54 +1,26 @@
-:root {
-    --bg: #1a1a2e;
-    --card: #16213e;
-    --primary: #4ecca3;
-    --secondary: #3498db;
-    --success: #2ecc71;
-    --text: #ffffff;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+body { background: #0f172a; color: white; font-family: 'Arial', sans-serif; height: 100vh; overflow: hidden; }
 
-body, html { 
-    margin: 0; padding: 0; width: 100%; height: 100%; 
-    background: var(--bg); color: var(--text); 
-    font-family: 'Segoe UI', sans-serif; overflow: hidden;
-}
-
-#app { display: flex; justify-content: center; align-items: center; height: 100%; width: 100%; }
-
-.screen { 
-    width: 100%; height: 100%; display: flex; flex-direction: column; 
-    align-items: center; justify-content: center; padding: 20px; box-sizing: border-box;
-}
-
+#game-container { width: 100%; height: 100%; position: relative; }
+.screen { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; }
 .hidden { display: none !important; }
 
-.title { font-size: 2.5rem; margin-bottom: 30px; font-weight: 800; }
-.title span { color: var(--primary); }
+.logo { font-size: 2.5rem; color: #fbbf24; text-shadow: 0 4px #b45309; margin-bottom: 30px; }
+.logo span { display: block; font-size: 1rem; color: #fff; letter-spacing: 5px; }
 
-input { 
-    width: 80%; padding: 15px; border-radius: 12px; border: 2px solid var(--card);
-    background: var(--card); color: white; font-size: 1.1rem; margin-bottom: 15px; text-align: center;
-}
+input { width: 80%; padding: 15px; border-radius: 10px; border: none; font-size: 1.2rem; text-align: center; margin: 10px; background: #1e293b; color: white; border: 2px solid #334155; }
 
-.btn { 
-    width: 85%; padding: 15px; border-radius: 12px; border: none; 
-    font-weight: bold; font-size: 1rem; cursor: pointer; margin: 8px 0; transition: 0.3s;
-}
-.primary { background: var(--primary); color: #1a1a2e; }
-.secondary { background: var(--secondary); color: white; }
-.success { background: var(--success); color: white; }
+button { width: 85%; padding: 15px; margin: 8px; border-radius: 12px; border: none; background: #3b82f6; color: white; font-weight: bold; cursor: pointer; box-shadow: 0 4px #2563eb; }
+button:active { transform: translateY(3px); box-shadow: none; }
+.btn-green { background: #10b981; box-shadow: 0 4px #059669; }
+.btn-back { background: #ef4444; box-shadow: 0 4px #dc2626; }
 
-#board-container { 
-    width: 95vw; height: 95vw; max-width: 450px; max-height: 450px; 
-    background: white; border: 5px solid #2c3e50; border-radius: 8px; 
-}
+#ludo-board-wrapper { width: 95vw; height: 95vw; max-width: 450px; max-height: 450px; background: white; border: 5px solid #334155; border-radius: 10px; overflow: hidden; }
+#ludoCanvas { width: 100%; height: 100%; }
 
-.game-header { width: 100%; display: flex; justify-content: space-between; padding: 10px 20px; font-weight: bold; }
-#dice-box { 
-    width: 70px; height: 70px; background: white; border-radius: 15px; 
-    display: flex; align-items: center; justify-content: center; 
-    font-size: 2.5rem; color: #333; border: 4px solid var(--primary); margin-top: 15px;
-}
+.header-info { width: 100%; display: flex; justify-content: space-between; padding: 10px 20px; font-weight: bold; background: #1e293b; }
+#dice-box { width: 65px; height: 65px; background: #fff; color: #000; font-size: 2.5rem; display: flex; align-items: center; justify-content: center; border-radius: 15px; border: 4px solid #fbbf24; margin-top: 15px; cursor: pointer; }
 
-.pulse { animation: pulse-animation 2s infinite; }
-@keyframes pulse-animation { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+#player-list div { background: #1e293b; padding: 10px; margin: 5px; border-radius: 8px; width: 250px; border-left: 8px solid #ccc; }
+.blink { animation: blinker 1.5s linear infinite; color: #fbbf24; margin-top: 10px; }
+@keyframes blinker { 50% { opacity: 0; } }
