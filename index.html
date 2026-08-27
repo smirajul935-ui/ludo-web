@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Ludo Online</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+</head>
+<body>
+
+    <div id="game-app">
+        <!-- 1. Screen Home -->
+        <div id="screen-home" class="screen">
+            <h1 class="logo">LUDO<span>MULTIPLAYER</span></h1>
+            <div class="menu-box">
+                <input type="text" id="player-name" placeholder="Enter Nickname" maxlength="10">
+                <button class="btn blue" onclick="ui.goto('screen-create')">CREATE ROOM</button>
+                <button class="btn green" onclick="ui.goto('screen-join')">JOIN ROOM</button>
+            </div>
+        </div>
+
+        <!-- 2. Screen Create -->
+        <div id="screen-create" class="screen hidden">
+            <h2>Select Players</h2>
+            <div class="select-row">
+                <button class="btn-chip" onclick="game.setPlayers(2)">2 Players</button>
+                <button class="btn-chip" onclick="game.setPlayers(4)">4 Players</button>
+            </div>
+            <p id="mode-text">Mode: 2 Players</p>
+            <button class="btn orange" onclick="game.startCreating()">GENERATE CODE</button>
+            <button class="btn-back" onclick="ui.goto('screen-home')">← BACK</button>
+        </div>
+
+        <!-- 3. Screen Join -->
+        <div id="screen-join" class="screen hidden">
+            <h2>Enter Room Code</h2>
+            <input type="text" id="join-code" placeholder="6-Digit Code">
+            <button class="btn green" onclick="game.joinRoom()">JOIN NOW</button>
+            <button class="btn-back" onclick="ui.goto('screen-home')">← BACK</button>
+        </div>
+
+        <!-- 4. Screen Lobby -->
+        <div id="screen-lobby" class="screen hidden">
+            <div class="code-box">
+                <small>SHARE CODE</small>
+                <h1 id="room-id-display">------</h1>
+            </div>
+            <div id="player-list"></div>
+            <div id="host-controls" class="hidden">
+                <button class="btn green" onclick="game.startGame()">START GAME</button>
+            </div>
+            <p class="blink">Waiting for other players...</p>
+        </div>
+
+        <!-- 5. Screen Game -->
+        <div id="screen-game" class="screen hidden">
+            <div class="game-header">
+                <div id="turn-indicator">TURN: RED</div>
+                <div id="game-timer">30</div>
+            </div>
+            <div id="ludo-board-wrapper">
+                <canvas id="ludoCanvas"></canvas>
+            </div>
+            <div class="game-footer">
+                <div id="dice-box" onclick="game.rollDice()">?</div>
+                <p id="game-status">Your Turn! Roll the dice.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="firebase-config.js"></script>
+    <script src="game-engine.js"></script>
+</body>
+</html>
