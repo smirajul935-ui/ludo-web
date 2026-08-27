@@ -1,32 +1,11 @@
-:root {
-    --red: #ff4d4d; --green: #2ecc71; --yellow: #f1c40f; --blue: #3498db;
-}
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-body { background: #1a1a2e; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
-
-.screen { width: 100%; max-width: 500px; display: flex; flex-direction: column; align-items: center; text-align: center; }
-.hidden { display: none !important; }
-
-/* Home & Buttons */
-h1 { font-size: 2.5rem; margin-bottom: 30px; color: #f1c40f; text-shadow: 0 4px #c0392b; }
-input { padding: 12px; border-radius: 8px; border: none; width: 80%; margin-bottom: 15px; font-size: 1.1rem; }
-button { padding: 12px 25px; border-radius: 8px; border: none; background: #3498db; color: white; font-weight: bold; cursor: pointer; width: 80%; margin: 8px; box-shadow: 0 4px #2980b9; transition: 0.2s; }
-button:active { transform: translateY(3px); box-shadow: 0 1px #2980b9; }
-button.primary { background: #27ae60; box-shadow: 0 4px #1e8449; }
-
-/* Ludo Board Container */
-#ludo-container { 
-    width: 95vw; height: 95vw; max-width: 450px; max-height: 450px; 
-    background: white; position: relative; border: 8px solid #34495e; border-radius: 10px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-}
-canvas { width: 100%; height: 100%; display: block; }
-
-/* Controls */
-#game-header { width: 100%; display: flex; justify-content: space-between; padding: 10px 20px; background: #16213e; margin-bottom: 5px; }
-#dice-container { 
-    width: 60px; height: 60px; background: white; border-radius: 10px; 
-    display: flex; align-items: center; justify-content: center; 
-    font-size: 2rem; color: #333; border: 3px solid #f1c40f; cursor: pointer;
-}
-#status-msg { margin-top: 10px; font-weight: bold; color: #f1c40f; }
+body { margin: 0; background: #121212; color: white; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
+.screen { width: 90%; max-width: 400px; text-align: center; }
+.hidden { display: none; }
+.logo-text { font-size: 3rem; color: #ffcc00; text-shadow: 2px 4px #cc0000; margin-bottom: 20px; }
+input { width: 80%; padding: 12px; margin: 10px; border-radius: 5px; border: none; font-size: 1rem; }
+button { width: 85%; padding: 12px; margin: 8px; border-radius: 8px; border: none; background: #007bff; color: white; font-weight: bold; cursor: pointer; }
+.btn-confirm { background: #28a745; }
+#board-container { width: 95vw; height: 95vw; max-width: 450px; max-height: 450px; background: white; margin: 10px auto; border: 4px solid #333; }
+#ludoCanvas { width: 100%; height: 100%; }
+#dice-box { width: 60px; height: 60px; background: white; color: black; font-size: 2rem; display: flex; align-items: center; justify-content: center; margin: 10px auto; border-radius: 10px; border: 3px solid #ffcc00; }
+.game-info { display: flex; justify-content: space-between; padding: 10px; background: #1f1f1f; width: 100%; }
