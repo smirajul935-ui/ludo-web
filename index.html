@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SagarTech99 - Ludo Multiplayer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="game-container">
+        <!-- 1. Start Screen -->
+        <div id="setup-screen" class="screen">
+            <h1 class="neon-logo">LUDO<span>MULTIPLAYER</span></h1>
+            <div class="glass-card">
+                <input type="text" id="player-name" placeholder="Enter Your Nickname" maxlength="10">
+                <button id="create-btn" class="btn-neon green">CREATE PRIVATE TABLE</button>
+                <div class="divider">OR</div>
+                <input type="text" id="room-code-input" placeholder="Enter 4-Digit Code" maxlength="4">
+                <button id="join-btn" class="btn-neon blue">JOIN PRIVATE TABLE</button>
+            </div>
+            <div class="brand-name">SagarTech99</div>
+        </div>
+
+        <!-- 2. Lobby Screen (Waiting) -->
+        <div id="lobby-screen" class="screen hidden">
+            <div class="lobby-card">
+                <div class="lobby-header">
+                    <h2>WAITING FOR PLAYERS</h2>
+                    <p>Share Room Code</p>
+                </div>
+                <div class="code-box">
+                    <h1 id="display-room-code">----</h1>
+                    <span class="star-badge">★</span>
+                </div>
+                <ul id="player-list"></ul>
+                <button id="start-btn" class="btn-start hidden">START GAME</button>
+                <p class="wait-msg">Waiting for others to join...</p>
+            </div>
+            <div class="brand-name">SagarTech99</div>
+        </div>
+
+        <!-- 3. Real Ludo Board Screen -->
+        <div id="game-screen" class="screen hidden">
+            <div class="game-header">
+                <div class="player-indicator" id="turn-box">Turn: <span id="current-turn-text">---</span></div>
+                <div class="timer">⏱ <span id="timer-val">30</span>s</div>
+            </div>
+
+            <div class="ludo-wrapper">
+                <div class="ludo-board" id="ludo-board">
+                    <!-- 15x15 Cells will be generated here -->
+                </div>
+                <div id="tokens-container"></div>
+            </div>
+
+            <div class="game-footer">
+                <div class="dice-area">
+                    <div id="dice-value">🎲</div>
+                    <button id="roll-btn" class="roll-btn" disabled>ROLL DICE</button>
+                </div>
+                <div class="my-color-info">YOU: <span id="my-color-text">---</span></div>
+                <div class="brand-name">SagarTech99</div>
+            </div>
+        </div>
+
+        <!-- 4. Winner Popup -->
+        <div id="winner-modal" class="modal hidden">
+            <div class="modal-content">
+                <h1 id="winner-text">WINNER! 🎉</h1>
+                <button onclick="location.reload()" class="btn-neon green">Play Again</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="app.js"></script>
+</body>
+</html>
