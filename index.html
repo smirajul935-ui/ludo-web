@@ -3,75 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Ludo Online - SagarTech99</title>
+    <title>SagarTech99 - Online Ludo</title>
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <div id="game-app">
-        <!-- 1. Home Screen -->
+    <div id="game-container">
+        <!-- Home Screen -->
         <div id="screen-home" class="screen">
-            <div class="neon-logo">LUDO<span>MULTIPLAYER</span></div>
-            <div class="input-card">
-                <input type="text" id="player-name" placeholder="Enter Nickname" maxlength="12">
-                <button class="btn-neon green" onclick="ui.goto('screen-create')">CREATE ROOM</button>
-                <button class="btn-neon blue" onclick="ui.goto('screen-join')">JOIN ROOM</button>
+            <h1 class="logo-neon">LUDO<span>MULTIPLAYER</span></h1>
+            <div class="glass-card">
+                <input type="text" id="player-name" placeholder="Enter Nickname" maxlength="10">
+                <button class="btn-neon green" onclick="ui.goto('screen-create')">CREATE TABLE</button>
+                <button class="btn-neon blue" onclick="ui.goto('screen-join')">JOIN TABLE</button>
             </div>
-            <div class="footer-brand">SagarTech99</div>
+            <div class="brand">SagarTech99</div>
         </div>
 
-        <!-- 2. Create Lobby Screen (Photo 2 style) -->
+        <!-- Lobby (Photo 2 Style) -->
         <div id="screen-lobby" class="screen hidden">
-            <div class="lobby-container">
+            <div class="lobby-box">
                 <div class="lobby-header">
-                    <div class="lobby-icon">👥</div>
+                    <div class="users-icon">👥</div>
                     <h2>WAITING FOR PLAYERS</h2>
                     <p>Share Room Code with your friends</p>
                 </div>
-                
-                <div class="code-banner">
-                    <h1 id="room-id-display">SAGAR TECH99</h1>
-                    <div class="star-icon">★</div>
+                <div class="code-box">
+                    <h1 id="room-code-display">SAGAR TECH99</h1>
+                    <span>★</span>
                 </div>
-
-                <div class="player-count">PLAYERS ( <span id="p-joined">1</span> / 4 )</div>
-
-                <div id="player-list" class="lobby-list">
-                    <!-- Player list will look like the photo -->
-                </div>
-
+                <div class="player-slots" id="player-list"></div>
                 <div id="host-controls" class="hidden">
-                    <button class="btn-start" onclick="game.startGame()">
-                        <span class="play-tri">▶</span> START GAME
-                    </button>
+                    <button class="btn-start" onclick="game.startGame()">▶ START GAME</button>
                 </div>
             </div>
         </div>
 
-        <!-- 3. Real Game Board (Photo 1 style) -->
+        <!-- Game Board (Photo 1 Style) -->
         <div id="screen-game" class="screen hidden">
-            <div id="board-container">
-                <!-- Board will be rendered here with CSS Grid -->
-                 <div id="ludo-board" class="ludo-grid"></div>
+            <div class="game-top">
+                <div class="p-badge" id="p-red"><div class="p-icon">👤</div><span id="name-red">---</span></div>
+                <div class="p-badge" id="p-green"><div class="p-icon">👤</div><span id="name-green">---</span></div>
+            </div>
+            
+            <div id="board-area">
+                <canvas id="ludoCanvas"></canvas>
             </div>
 
-            <div class="player-badges">
-                <div class="p-badge red" id="badge-0"><div class="p-icon">👤</div><span id="name-0">User 1</span></div>
-                <div class="p-badge green" id="badge-1"><div class="p-icon">👤</div><span id="name-1">User 2</span></div>
-                <div class="p-badge blue" id="badge-2"><div class="p-icon">👤</div><span id="name-2">User 3</span></div>
-                <div class="p-badge yellow" id="badge-3"><div class="p-icon">👤</div><span id="name-3">User 4</span></div>
+            <div class="game-bottom">
+                <div class="p-badge" id="p-blue"><div class="p-icon">👤</div><span id="name-blue">---</span></div>
+                <div class="p-badge" id="p-yellow"><div class="p-icon">👤</div><span id="name-yellow">---</span></div>
             </div>
 
-            <div class="dice-section">
+            <div class="controls-area">
                 <div id="dice-container" onclick="game.rollDice()">
-                    <div id="dice-value" class="dice-ui">⚄</div>
-                    <div class="roll-text">ROLL DICE</div>
+                    <div id="dice-cube" class="dice">?</div>
                 </div>
-                <div class="brand-name">SagarTech99</div>
+                <div class="branding">SagarTech99</div>
             </div>
         </div>
     </div>
