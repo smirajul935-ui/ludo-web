@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Ludo Online</title>
+    <title>Ludo Online - SagarTech99</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
@@ -13,61 +13,65 @@
 <body>
 
     <div id="game-app">
-        <!-- 1. Screen Home -->
+        <!-- 1. Home Screen -->
         <div id="screen-home" class="screen">
-            <h1 class="logo">LUDO<span>MULTIPLAYER</span></h1>
-            <div class="menu-box">
-                <input type="text" id="player-name" placeholder="Enter Nickname" maxlength="10">
-                <button class="btn blue" onclick="ui.goto('screen-create')">CREATE ROOM</button>
-                <button class="btn green" onclick="ui.goto('screen-join')">JOIN ROOM</button>
+            <div class="neon-logo">LUDO<span>MULTIPLAYER</span></div>
+            <div class="input-card">
+                <input type="text" id="player-name" placeholder="Enter Nickname" maxlength="12">
+                <button class="btn-neon green" onclick="ui.goto('screen-create')">CREATE ROOM</button>
+                <button class="btn-neon blue" onclick="ui.goto('screen-join')">JOIN ROOM</button>
             </div>
+            <div class="footer-brand">SagarTech99</div>
         </div>
 
-        <!-- 2. Screen Create -->
-        <div id="screen-create" class="screen hidden">
-            <h2>Select Players</h2>
-            <div class="select-row">
-                <button class="btn-chip" onclick="game.setPlayers(2)">2 Players</button>
-                <button class="btn-chip" onclick="game.setPlayers(4)">4 Players</button>
-            </div>
-            <p id="mode-text">Mode: 2 Players</p>
-            <button class="btn orange" onclick="game.startCreating()">GENERATE CODE</button>
-            <button class="btn-back" onclick="ui.goto('screen-home')">← BACK</button>
-        </div>
-
-        <!-- 3. Screen Join -->
-        <div id="screen-join" class="screen hidden">
-            <h2>Enter Room Code</h2>
-            <input type="text" id="join-code" placeholder="6-Digit Code">
-            <button class="btn green" onclick="game.joinRoom()">JOIN NOW</button>
-            <button class="btn-back" onclick="ui.goto('screen-home')">← BACK</button>
-        </div>
-
-        <!-- 4. Screen Lobby -->
+        <!-- 2. Create Lobby Screen (Photo 2 style) -->
         <div id="screen-lobby" class="screen hidden">
-            <div class="code-box">
-                <small>SHARE CODE</small>
-                <h1 id="room-id-display">------</h1>
+            <div class="lobby-container">
+                <div class="lobby-header">
+                    <div class="lobby-icon">👥</div>
+                    <h2>WAITING FOR PLAYERS</h2>
+                    <p>Share Room Code with your friends</p>
+                </div>
+                
+                <div class="code-banner">
+                    <h1 id="room-id-display">SAGAR TECH99</h1>
+                    <div class="star-icon">★</div>
+                </div>
+
+                <div class="player-count">PLAYERS ( <span id="p-joined">1</span> / 4 )</div>
+
+                <div id="player-list" class="lobby-list">
+                    <!-- Player list will look like the photo -->
+                </div>
+
+                <div id="host-controls" class="hidden">
+                    <button class="btn-start" onclick="game.startGame()">
+                        <span class="play-tri">▶</span> START GAME
+                    </button>
+                </div>
             </div>
-            <div id="player-list"></div>
-            <div id="host-controls" class="hidden">
-                <button class="btn green" onclick="game.startGame()">START GAME</button>
-            </div>
-            <p class="blink">Waiting for other players...</p>
         </div>
 
-        <!-- 5. Screen Game -->
+        <!-- 3. Real Game Board (Photo 1 style) -->
         <div id="screen-game" class="screen hidden">
-            <div class="game-header">
-                <div id="turn-indicator">TURN: RED</div>
-                <div id="game-timer">30</div>
+            <div id="board-container">
+                <!-- Board will be rendered here with CSS Grid -->
+                 <div id="ludo-board" class="ludo-grid"></div>
             </div>
-            <div id="ludo-board-wrapper">
-                <canvas id="ludoCanvas"></canvas>
+
+            <div class="player-badges">
+                <div class="p-badge red" id="badge-0"><div class="p-icon">👤</div><span id="name-0">User 1</span></div>
+                <div class="p-badge green" id="badge-1"><div class="p-icon">👤</div><span id="name-1">User 2</span></div>
+                <div class="p-badge blue" id="badge-2"><div class="p-icon">👤</div><span id="name-2">User 3</span></div>
+                <div class="p-badge yellow" id="badge-3"><div class="p-icon">👤</div><span id="name-3">User 4</span></div>
             </div>
-            <div class="game-footer">
-                <div id="dice-box" onclick="game.rollDice()">?</div>
-                <p id="game-status">Your Turn! Roll the dice.</p>
+
+            <div class="dice-section">
+                <div id="dice-container" onclick="game.rollDice()">
+                    <div id="dice-value" class="dice-ui">⚄</div>
+                    <div class="roll-text">ROLL DICE</div>
+                </div>
+                <div class="brand-name">SagarTech99</div>
             </div>
         </div>
     </div>
