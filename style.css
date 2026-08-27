@@ -1,37 +1,76 @@
-:root { --bg: #1a1a2e; --card: #16213e; --yellow: #f1c40f; --text: #ffffff; }
-
-* { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
-body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; overflow: hidden; height: 100vh; width: 100vw; }
-
-.screen { 
-    position: absolute; top:0; left:0; width: 100%; height: 100%; 
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    background: var(--bg); z-index: 10; padding: 20px; text-align: center;
+:root {
+    --neon-green: #29ff29;
+    --neon-blue: #00d2ff;
+    --bg-dark: #00050a;
+    --card-bg: #0a131a;
 }
+
+body {
+    margin: 0; padding: 0; background: var(--bg-dark);
+    font-family: 'Rajdhani', sans-serif; color: white;
+    overflow: hidden; height: 100vh;
+}
+
+.screen {
+    position: absolute; width: 100%; height: 100%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    background: radial-gradient(circle, #0d1b2a 0%, #00050a 100%);
+}
+
 .hidden { display: none !important; }
 
-.logo { font-size: 2.8rem; color: var(--yellow); text-shadow: 0 4px #c0392b; margin-bottom: 2rem; }
-.logo span { display: block; font-size: 1rem; color: #fff; letter-spacing: 4px; }
+/* Lobby UI Style (Matches Photo 2) */
+.lobby-container {
+    width: 90%; max-width: 380px; background: rgba(0,0,0,0.6);
+    border: 2px solid #1a2a3a; border-radius: 20px; padding: 20px;
+    box-shadow: 0 0 30px rgba(0,210,255,0.2);
+}
 
-.menu-box { background: var(--card); padding: 25px; border-radius: 20px; width: 100%; max-width: 320px; border: 2px solid #0f3460; }
+.lobby-header h2 { color: white; letter-spacing: 2px; font-size: 1.5rem; margin: 10px 0; }
 
-input { width: 100%; padding: 15px; border-radius: 12px; border: none; font-size: 1.2rem; text-align: center; margin-bottom: 15px; }
+.code-banner {
+    background: rgba(0,255,0,0.1); border: 1px solid var(--neon-green);
+    border-radius: 15px; padding: 10px; margin: 20px 0; position: relative;
+}
+.code-banner h1 { color: var(--neon-green); margin: 0; letter-spacing: 3px; }
 
-.btn { width: 100%; padding: 15px; margin: 8px 0; border-radius: 12px; border: none; font-weight: bold; font-size: 1rem; cursor: pointer; color: white; transition: 0.2s; }
-.blue { background: #3498db; box-shadow: 0 5px #2980b9; }
-.green { background: #2ecc71; box-shadow: 0 5px #27ae60; }
-.orange { background: #e67e22; box-shadow: 0 5px #d35400; }
-.btn:active { transform: translateY(3px); box-shadow: none; }
+.lobby-list { width: 100%; margin-top: 15px; }
+.player-row {
+    background: #111d27; margin: 8px 0; padding: 12px;
+    border-radius: 12px; display: flex; align-items: center;
+    border: 1px solid #1e2e3e;
+}
+.player-row.active { border-color: var(--neon-blue); box-shadow: inset 0 0 10px rgba(0,210,255,0.2); }
 
-.btn-back { background: none; color: #3498db; margin-top: 15px; cursor: pointer; border: none; font-size: 1rem; }
+.btn-start {
+    width: 100%; padding: 15px; border-radius: 30px; border: none;
+    background: linear-gradient(to bottom, #29ff29, #1a9e1a);
+    color: black; font-weight: bold; font-size: 1.2rem; cursor: pointer;
+    margin-top: 20px; box-shadow: 0 5px 15px rgba(41,255,41,0.4);
+}
 
-/* Ludo Board Area */
-#ludo-board-wrapper { width: 95vw; height: 95vw; max-width: 450px; max-height: 450px; background: white; border: 5px solid #333; margin: 15px 0; }
-#ludoCanvas { width: 100%; height: 100%; }
+/* Ludo Board Style (Matches Photo 1) */
+.ludo-grid {
+    display: grid; grid-template-columns: repeat(15, 1fr);
+    width: 95vw; height: 95vw; max-width: 450px; max-height: 450px;
+    background: #ddd; border: 4px solid #333;
+}
 
-.game-header { width: 100%; display: flex; justify-content: space-between; padding: 10px 25px; font-weight: bold; background: #0f3460; }
-#dice-box { width: 70px; height: 70px; background: white; color: #000; font-size: 2.5rem; display: flex; align-items: center; justify-content: center; border-radius: 15px; border: 4px solid var(--yellow); margin-top: 15px; }
+.cell { border: 0.1px solid rgba(0,0,0,0.1); }
+.red-zone { background: #ff3d3d; }
+.green-zone { background: #2ecc71; }
+.blue-zone { background: #3498db; }
+.yellow-zone { background: #f1c40f; }
 
-#player-list div { background: var(--card); padding: 12px; margin: 5px; border-radius: 10px; width: 280px; text-align: left; border-left: 10px solid #ccc; }
-.blink { animation: blinker 1.5s linear infinite; margin-top: 10px; color: var(--yellow); }
-@keyframes blinker { 50% { opacity: 0; } }
+.dice-section {
+    margin-top: 20px; text-align: center;
+}
+#dice-container {
+    background: #000; border: 3px solid var(--neon-green);
+    padding: 10px 30px; border-radius: 50px; cursor: pointer;
+}
+.dice-ui { font-size: 3rem; color: white; }
+.brand-name { 
+    font-size: 2rem; color: white; margin-top: 10px;
+    letter-spacing: 2px; font-weight: bold;
+}
